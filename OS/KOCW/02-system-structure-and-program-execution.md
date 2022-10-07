@@ -15,7 +15,7 @@
 
 #### I/O Device
 
-I/O는 Input과 Output을 의미한다.  
+I/O는 **Input**과 **Output**을 의미한다.  
 **Input**은 I/O Device의 데이터가 컴퓨터 내부로 들어가는 것, **Output**은 컴퓨터 내부에서 처리한 데이터를 다시 I/O Device로 내보내는 것.  
 
 - 하드 디스크
