@@ -173,3 +173,10 @@ F(int[] n) {
 - [(이코테 2021 강의 몰아보기) 1. 코딩 테스트 출제 경향 분석 및 파이썬 문법 부수기 - YouTube](https://youtu.be/m-9pAwq1o3w)
 - [[자료구조 알고리즘] 빅오(Big-O)표기법 완전정복 - YouTube](https://www.youtube.com/watch?v=6Iq5iMCVsXA)
 - [빅오 표기법(Big-O notation), 시간복잡도, 공간복잡도 : 네이버 블로그](https://blog.naver.com/PostView.naver?blogId=kks227&logNo=220769859177&categoryNo=299&parentCategoryNo=0&viewDate=&currentPage=13&postListTopCurrentPage=&from=postList&userTopListOpen=true&userTopListCount=5&userTopListManageOpen=false&userTopListCurrentPage=13)
+
+## 수식 연습
+
+$n^3$.
+이렇게 쓰다가 $n^3$ 이건 되겠지.
+근데 ($n^3$) 이것도 될까.
+그러면 $3^n$, O( $3^n$ ), O(\$3^n$\)
