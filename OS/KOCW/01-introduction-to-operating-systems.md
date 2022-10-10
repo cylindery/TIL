@@ -28,7 +28,7 @@
 컴퓨터 하드웨어 바로 위에 설치되어 **사용자** 및 다른 모든 **소프트웨어**와 **하드웨어**를 **연결**하는 **소프트웨어 계층**.  
 사용자는 직접 하드웨어에 접근하지 않으면서 운영체제하고만 상호작용하며, 또한 다른 소프트웨어도 동일하다.
 
-!그림
+<img src = "./assets/operating-system.png" width = "80%" height = "80%">
 
 ## 운영체제의 목표
 
@@ -273,7 +273,7 @@ CPU가 인터럽트가 걸리면, CPU는 다음 작업을 하기 전에 입출�
 - 네트워킹
 - 명령어 해석기(Command line interpreter)
 
-!그림
+<img src ="./assets/operating-system-structure.png" width = "80%" height = "80%">
 
 ## 운영체제 과목의 수강 태도
 
