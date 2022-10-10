@@ -25,7 +25,7 @@
 
 ### 빅오 표기법 성능 차트
 
-![big-o-notation-time-complexity](/Users/juwonju/IdeaProjects/TIL/Algorithm/assets/big-o-notation-time-complexity.jpeg)
+![big-o-notation-time-complexity](./assets/big-o-notation-time-complexity.jpeg)
 
 ### Constant Time - O( $1$ )
 
@@ -107,11 +107,11 @@ int f(n, r) {
 **피보나치 수열**을 재귀 함수로 구현한 코드.  
 피보나치 수열은 가로, 세로 길이가 $1$인 정사각형부터 시작해서, 한 면을 기준으로 정사각형을 만드는 것.
 
-![fibonacci-numbers-1](/Users/juwonju/IdeaProjects/TIL/Algorithm/assets/fibonacci-numbers-1.png)
+![fibonacci-numbers-1](./assets/fibonacci-numbers-1.png)
 
 함수를 호출할 때마다, 바로 전의 숫자와 전전 숫자를 알아야 함수의 값을 구할 수 있다. 그래서 해당 값를 알아내기 위해, 전의 숫자를 가지고 재귀호출을 하고, 전의 전 숫자를 가지고 재귀호출.
 
-![fibonacci-numbers-2](/Users/juwonju/IdeaProjects/TIL/Algorithm/assets/fibonacci-numbers-2.png)
+![fibonacci-numbers-2](./assets/fibonacci-numbers-2.png)
 
 이렇게 매번 함수를 한 번 호출될 때마다 두 번씩 함수 호출한다. 이 과정을 트리의 높이 $k$ 만큼 반복.  
 O( $n^3$ )보다 데이터의 증가에 따른 처리 시간이 현저히 가파름.
