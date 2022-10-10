@@ -27,7 +27,7 @@
 
 !그림
 
-### Constant Time - O(<math>1</math>)
+### Constant Time - O($1$)
 
 입력 데이터의 크기에 상관없이 언제나 일정한 시간이 걸리는 알고리즘.
 
