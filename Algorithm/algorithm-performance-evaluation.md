@@ -32,8 +32,8 @@
 입력 데이터의 크기에 상관없이 언제나 일정한 시간이 걸리는 알고리즘.
 
 ```java
-boolean F(int[] n) {
-  return (n[0] == 0) ? true : false;
+boolean f(int[] n) {
+    return (n[0] == 0) ? true : false;
 }
 ```
 
@@ -45,9 +45,9 @@ boolean F(int[] n) {
 입력 데이터의 크기에 비례해서 처리 시간이 늘어나는 알고리즘.
 
 ```java
-void F(int[] n) {
-  for i = 0 to n.length
-    print i 
+void f(int[] n) {
+    for i = 0 to n.length
+        print i;
 }
 ```
 
@@ -58,10 +58,10 @@ $n$개의 데이터를 받으면, $n$번 반복한다. 데이터가 증가함에
 ### Quadratic Time - O( $n^2$ )
 
 ```java
-void F(int[] n) {
-  for i = 0 to n.length
-    for j = 0 to n.length
-      print i + j;
+void f(int[] n) {
+    for i = 0 to n.length
+        for j = 0 to n.length
+            print i + j;
 }
 ```
 
@@ -71,10 +71,10 @@ void F(int[] n) {
 ### Quadratic Time - O( $nm$ )
 
 ```java
-void F(int[] n, int[] m) {
-  for i = 0 to n.length
-    for j = 0 to m.length
-      print i + j;
+void f(int[] n, int[] m) {
+    for i = 0 to n.length
+        for j = 0 to m.length
+            print i + j;
 }
 ```
 
@@ -83,11 +83,11 @@ void F(int[] n, int[] m) {
 ### Polynomial/Cubic Time - O( $n^3$ )
 
 ```java
-void F(int[] n) {
-  for i = 0 to n.length
-    for j = 0 to n.length
-      for k = 0 to n.length
-        print i + j + k;
+void f(int[] n) {
+    for i = 0 to n.length
+        for j = 0 to n.length
+            for k = 0 to n.length
+                print i + j + k;
 }
 ```
 
@@ -97,10 +97,10 @@ $n^2$을 $n$만큼 더 반복하므로, 연산 횟수는 정육면체의 부피�
 ### Exponential Time - O( $2^n$ )
 
 ```java
-int F(n, r) {
-  if (n <= 0) return 0;
-  if else (n == 1) return r[n] = 1;
-  return r[n] = F(n - 1, r) + F(n - 2, r);
+int f(n, r) {
+    if (n <= 0) return 0;
+    if else (n == 1) return r[n] = 1;
+    return r[n] = f(n - 1, r) + f(n - 2, r);
 }
 ```
 
@@ -121,12 +121,12 @@ O( $2^n$ )에 해당하는 함수를 확장하여, 함수가 $m$개씩 $n$번 �
 한번 연산이 진행될 때마다 검색해야하는 데이터 양이 절반씩 떨어지는 알고리즘. 대표적인 알고리즘으로는 이진 검색.
 
 ```java
-int F(k, arr, start, end) {
-  if (start > end) return -1;
-  mid = (start + end) / 2;
-  if (arr[mid] == k) return mid;
-  else if (arr[mid] > k) return F(k, arr, start, mid - 1);
-  else return F(k, arr, mid + 1, end);
+int f(k, arr, start, end) {
+    if (start > end) return -1;
+    mid = (start + end) / 2;
+    if (arr[mid] == k) return mid;
+    else if (arr[mid] > k) return f(k, arr, start, mid - 1);
+    else return F(k, arr, mid + 1, end);
 }
 ```
 
@@ -146,11 +146,11 @@ int F(k, arr, start, end) {
 따라서 상수는 고정된 숫자이므로 증가하지 않는 숫자는 신경쓰지 않는다.
 
 ```java
-void F(int[] n) {
-  for i = 0 to n.length
-    print i
-  for i = 0 to n.length
-    print i
+void f(int[] n) {
+    for i = 0 to n.length
+        print i;
+    for i = 0 to n.length
+        print i;
 }
 ```
 
@@ -159,7 +159,7 @@ void F(int[] n) {
 ## 알고리즘 설계 팁
 
 문제에서 가장 먼저 확인해야 하는 것은 **시간 제한**(수행시간 요구사항)을 확인.  
-코딩 테스트 문제의 시간 제한은 **보통 1~5초** 가량이다. 명시되어 있지 않으면, 대략 5초 정도라고 풀면 좋다.  
+코딩 테스트 문제의 시간 제한은 **보통 1 ~ 5초** 가량이다. 명시되어 있지 않으면, 대략 5초 정도라고 풀면 좋다.  
 그리고 일반적인 **컴퓨터 연산 속도는 대략 1초에 1억 번**정도 연산할 수 있다고 생각하자.
 
 - 시간 제한이 1초인 문제를 만났을 때, 일반적인 기준
