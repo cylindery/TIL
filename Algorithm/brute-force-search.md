@@ -71,4 +71,5 @@ public class Main {
 
 - [6 Introduction to Backtracking - Brute Force Approach - YouTube](https://www.youtube.com/watch?v=DKCbsiDBN6c)
 - [브루트 포스 완전 탐색 알고리즘 3분만에 이해하기 - YouTube](https://www.youtube.com/watch?v=ZNa9-86uVEA)
+- [(이코테 2021 강의 몰아보기) 2. 그리디 & 구현 - YouTube](https://www.youtube.com/watch?v=2zjoKjt97vQ&list=PLRx0vPvlEmdAghTr5mXQxGpHjWqSz0dgC&index=2)
 - [완전 탐색(Brute-force Search) : 네이버 블로그](https://blog.naver.com/kks227/220769870195)
