@@ -375,6 +375,3 @@ public class MemberService {
 <img src="./assets/member-domain-3.png" width="70%">
 
 회원 서비스는 MemberServiceImpl 구현체를 사용함.
-
-## 회원 도메인 개발
-
