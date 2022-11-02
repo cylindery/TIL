@@ -512,3 +512,7 @@ public class OrderServiceImpl implements OrderService {
 
 # 스프링 핵심 원리 이해2 - 객체 지향 원리 적용
 
+## 새로운 할인 정책 개발
+
+기존에 VIP를 대상으로 1000원씩 할인하던 정책에서, 주문 금액에 따라 10%씩 할인하는 정률 할인 정책으로 변경해보자.  
+따라서 `RateDiscountPolicy` 구현체를 추가.
