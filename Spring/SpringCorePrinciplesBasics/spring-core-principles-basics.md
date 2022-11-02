@@ -331,21 +331,21 @@ public class MemberService {
 
 ### 회원
 
-- 기능
+- **기능**
     - 회원 가입
     - 회원 조회
-- 등급
+- **등급**
     - 일반
     - VIP
-- 데이터베이스
+- **데이터베이스**
     - 자체 DB
     - 외부 시스템 연동
 
 ### 주문 & 할인 정책
 
-- 주문
+- **주문**
     - 회원이 상품 주문
-- 할인 정책
+- **할인 정책**
     - 회원 등급에 따라 다른 할인
         - VIP는 1000원 고정 할인 (이후 변경 가능)
 
@@ -363,15 +363,152 @@ public class MemberService {
 ### 클래스 다이어그램
 
 개발자들이 구체화한 실제 구현 레벨.  
-서버를 실행하지 않고 클래스들만 구성해서 볼 수 있는 그림.
+서버를 실행하지 않고 클래스들만 구성해서 볼 수 있는 그림. 따라서 정적이다.
 
 <img src="./assets/member-domain-2.png" width="70%">
 
 ### 객체 다이어그램
 
 실제 객체간의 참조.  
-서버가 실제로 떴을 때, 어떤 구현체를 사용하는지 볼 수 있음.
+서버가 실제로 떴을 때, 어떤 구현체를 사용하는지 볼 수 있음. 따라서 동적이다.
 
 <img src="./assets/member-domain-3.png" width="70%">
 
-회원 서비스는 MemberServiceImpl 구현체를 사용함.
+회원 서비스는 `MemberServiceImpl` 구현체를 사용함.
+
+## 회원 도메인 개발
+
+### 메모리 회원 저장소 구현체
+
+```java
+public class MemoryMemberRepository implements MemberRepository {
+    
+    private static Map<Long, Member> store = new HashMap<>();
+    
+    @Override
+    public void save(Member member) {
+        store.put(member.getId(), member);
+    }
+    
+    @Override
+    public Member findById(Long memberId) {
+        return store.get(memberId);
+    }
+}
+```
+
+데이터베이스가 아직 확정되지 않았지만, 개발을 위해 일단 가장 간단한 메모리 회원 저장소를 구현.
+
+데이터 저장소이기 때문에 id값과 Member를 같이 묶음으로 저장하는 Map이 필요하다.  
+참고로, `HashMap`은 동시성 이슈 발생 가능. 따라서 실제로는 `ConcurrentHashMap` 이용.
+
+## 회원 도메인 실행과 테스트
+
+### 회원 도메인 - 회원 가입 테스트
+
+```java
+class MemberServiceTest {
+    
+    MemberService memberService = new MemberServiceImpl();
+    
+    @Test
+    void join() {
+        //given
+        Member member = new Member(1L, "memberA", Grade.VIP);
+        
+        //when
+        memberService.join(member);
+        Member findMember = memberService.findMember(1L);
+        
+        //then
+        Assertions.assertThat(member).isEqualTo(findMember);
+    }
+}
+```
+
+테스트는 애플리케이션 로직으로 테스트 하는 것보다, 위 코드처럼 **JUnit 테스트 프레임워크**를 이용하는 것이 좋다.  
+또한 테스트 메서드는 **given, when, then** 의 3단 구조가 편리.
+
+### 설계한 회원 도메인의 문제점
+
+```java
+public class MemberServiceImpl implements MemberService {
+    
+    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    
+    public void join(Member member) {
+        memberRepository.save(member);
+    }
+    
+    public Member findMember(Long memberId) {
+        return memberRepository.findById(memberId);
+    }
+}
+```
+
+ `MemberServiceImpl` 은 현재 `MemoryMemberRepository`, 즉 **구현체에 의존**하고 있다.
+
+`MemberRepository`라는 인터페이스, 즉 추상에 의존하는 것은 괜찮지만 이렇게 구현체에 의존하면 현재 임시로 쓰고 있는 메모리 저장소에서 다른 저장소로 변경할 때 **OCP 원칙을 준수할 수 없고**, 이 자체로 **DIP도 위반**하고 있다.
+
+이 문제는 이후에 주문 도메인까지 개발한 뒤 함께 해결할 것.
+
+## 주문과 할인 도메인 설계
+
+### 주문 도메인 협력, 역할, 책임
+
+<img src="./assets/order-domain-1.png" width="70%">
+
+### 주문 도메인 전체
+
+<img src="./assets/order-domain-2.png" width="70%">
+
+주문 서비스나 회원 저장소의 "역할"을 먼저 만들고 이후에 그 구현을 만든다.  
+역할이 우선되면 이후에 구현체는 자유롭게 빼고 끼울 수 있다.
+
+### 주문 도메인 클래스 다이어그램
+
+<img src="./assets/order-domain-3.png" width="70%">
+
+### 주문 도메인 객체 다이어그램1
+
+<img src="./assets/order-domain-4.png" width="70%">
+
+회원을 메모리에서 조회하고, 정액 할인 정책을 지원해도 주문 서비스를 변경하지 않아도 된다(**협력 관계 그대로 재사용**).
+
+### 주문 도메인 객체 다이어그램2
+
+<img src="./assets/order-domain-5.png" width="70%">
+
+회원을 메모리가 아닌 실제 DB에서 조회하고, 정률 할인 정책을 지원해도 주문 서비스를 변경하지 않아도 된다(**협력 관계 그대로 재사용**).
+
+## 주문과 할인 도메인 개발
+
+할인 정책 인터페이스, 정액 할인 정책 구현체를 만들어 할인 도메인을 먼저 개발.  
+그리고 주문 엔티티, 주문 서비스 인터페이스, 주문 서비스 구현체를 만들어 주문 도메인 개발.
+
+### 주문 서비스 구현체
+
+```java
+public class OrderServiceImpl implements OrderService {
+    
+    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    
+    @Override
+    public Order createOrder(Long memberId, String itemName, int itemPrice) {
+        Member member = discountPolicy.discount(member, itemPrice);
+        int discountPrice = discountPolicy.discount(member, itemPrice);
+        
+        return new Order(memberId, itemName, itemPrice, discountPrice);
+    }
+}
+```
+
+주문 생성 요청이 오면, 회원 정보를 먼저 조회한 뒤, 할인 정책을 적용한 다음 주문 객체를 생성해서 반환한다.  
+**메모리 회원 리포지토리와 정액 할인 정책을 구현체로 생성**한다.
+
+위의 코드 라인 9에서는, 구현체가 할인을 하는지, 또 한다면 얼마나 하는지 모르므로 SRP 원칙을 지켰다고 볼 수 있음.  
+한편 회원 도메인 개발에서 나타났듯, 여전히 **주문 도메인에서도 OCP, DIP 원칙을 위반**한 문제가 존재함.
+
+# 스프링 핵심 원리 이해2 - 객체 지향 원리 적용
+
