@@ -46,7 +46,7 @@
 
 ## 출처
 
-- [7가지 자료구조(Data Structure)의 종류와 각각의 장단점](https://www.youtube.com/watch?v=NFETSCJON2M&list=PL7jH19IHhOLMdHvl3KBfFI70r9P0lkJwL&index=2)
+- [Array 배열 기초개념? 10분안에 정리해줌! - YouTube](https://www.youtube.com/watch?v=NFETSCJON2M&list=PL7jH19IHhOLMdHvl3KBfFI70r9P0lkJwL&index=2)
 - [배열 - Data Structure (자료구조)](https://opentutorials.org/module/1335/8677)
 - [리스트(List), 배열(Array), 연결 .. : 네이버블로그](https://blog.naver.com/kks227/220781402507)
 - [7가지 자료구조(Data Structure)의 종류와 각각의 장단점](https://iwuooh.com/entry/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0Data-Structure%EC%9D%98-%EC%A0%95%EC%9D%98%EC%99%80-%EC%A2%85%EB%A5%98)
