@@ -33,7 +33,8 @@ ArrayList는 배열의 일종이므로, 배열처럼 연속 메모리 memory add
 
 LinkedList의 구조.  
 리스트는 노드들의 모임. 따라서 내부적으로 노드를 가지고 있어야 함. LinkedList는 배열 대신 다른 구조 사용.  
-https://opentutorials.org/module/1335/8821 HEAD 그림...  
+https://opentutorials.org/module/1335/8821 HEAD 그림...
+
 data field 그리고 link field. node는 data field + link field. 데이터 필드는 값, 링크 필드는 다음 노드의 포인터나 참조값.  
 HEAD? 리스트가 하나의 건물이라면 건물의 입구를 HEAD. LinkedList를 처음 사용하려면 HEAD가 가리키는 첫번째 노드를 찾아야한다. 
 
