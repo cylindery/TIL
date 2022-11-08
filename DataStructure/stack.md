@@ -60,7 +60,7 @@ public class Main {
 }
 ```
 
-```java
+```
 1 3 2 5
 ```
 
