@@ -33,19 +33,19 @@
 
 ```java
 // 방법 1
-ArrayList<T> arraylist=new ArrayList<>();
-        LinkedList<T> linkedlist=new LinkedList<>();
-        Vector<T> vector=new Vector<>();
-        Stack<T> stack=new Stack<>();
+ArrayList<T> arraylist =new ArrayList<>();
+LinkedList<T> linkedlist =new LinkedList<>();
+Vector<T> vector =new Vector<>();
+Stack<T> stack = new Stack<>();
 
 // 방법 2
-        List<T> arraylist=new ArrayList<>();
-        List<T> linkedlist=new LinkedList<>();
-        List<T> vector=new Vector<>();
-        List<T> stack=new Stack<>();
+List<T> arraylist = new ArrayList<>();
+List<T> linkedlist = new LinkedList<>();
+List<T> vector = new Vector<>();
+List<T> stack = new Stack<>();
 
 // Stack은 Vector를 상속하기 때문에 아래와 같이 생성 가능
-        Vector<T> stack=new Stack<>();
+Vector<T> stack = new Stack<>();
 ```
 
 `T`는 객체의 타입을 의미. Integer, String, Double 등과 같은 Wrapper Class부터 사용자 정의 객체까지 사용 가능.  
