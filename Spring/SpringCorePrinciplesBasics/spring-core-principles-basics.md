@@ -701,7 +701,8 @@ AppConfig는 구체 클래스를 직접 선택하여, 애플리케이션이 어�
 
 ## AppConfig 리팩터링
 
-현재 AppConfig에 있는 **중복**, 그리고 **역할에 따른 구현이 잘 안보이는** 부분을 리팩터링 하자.
+현재 AppConfig에 있는 **중복**, 그리고 **역할에 따른 구현이 잘 안보이는** 부분을 리팩터링 하자.  
+기존 코드에서 **메서드 추출**을 통해, 역할이 잘 드러나도록 리팩터링 할 수 있다.
 
 ### 기대하는 AppConfig 결과
 
@@ -731,7 +732,7 @@ public class AppConfig {
 - 중복
     - `new MemoryMemberRepository()` 부분이 중복 제거되었다.
 - 역할에 따른 구현 구분
-    - 코드만 봐도 `MemberService` 역할, `MemberRepository` 역할, `OrderService` 역할 그리고 `DiscountPolicy` 역할이 각각 잘 보인다.
+    - 코드만 봐도 `MemberService` 역할, `MemberRepository` 역할, `OrderService` 역할 그리고 `DiscountPolicy` 역할이 각각 메서드 명만 봐도 잘 보인다.
     - 또한 그 각각의 구현 클래스를 반환함으로써 애플리케이션 구성을 한눈에 파악 가능.
 
 
