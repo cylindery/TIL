@@ -698,3 +698,41 @@ AppConfig를 통해 역할의 관심사를 확실히 분리할 수 있었다.
 따라서 AppConfig는 일종의 **공연 기획자** 역할을 한다.  
 AppConfig는 구체 클래스를 직접 선택하여, 애플리케이션이 어떻게 동작해야 할지 전체 **구성을 책임**진다.  
 그로 인해 각 구현체들은 기능을 실행하는 책임만 지면 된다.
+
+## AppConfig 리팩터링
+
+현재 AppConfig에 있는 **중복**, 그리고 **역할에 따른 구현이 잘 안보이는** 부분을 리팩터링 하자.
+
+### 기대하는 AppConfig 결과
+
+<img src="./assets/appconfig-refactoring.png" width="70%">
+
+```java
+public class AppConfig {
+
+    public MemberService memberService() {
+        return new MemberServiceImpl(memberRepository());
+    }
+
+    private MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    public OrderService orderService() {
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    public DiscountPolicy discountPolicy() {
+        return new FixDiscountPolicy();
+    }
+}
+```
+
+- 중복
+    - `new MemoryMemberRepository()` 부분이 중복 제거되었다.
+- 역할에 따른 구현 구분
+    - 코드만 봐도 `MemberService` 역할, `MemberRepository` 역할, `OrderService` 역할 그리고 `DiscountPolicy` 역할이 각각 잘 보인다.
+    - 또한 그 각각의 구현 클래스를 반환함으로써 애플리케이션 구성을 한눈에 파악 가능.
+
+
+
