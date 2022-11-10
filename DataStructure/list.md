@@ -69,65 +69,33 @@ e.g. `LinkedList<Integer> list = new LinkedList<>();`
 
 ## ArrayList
 
-ArrayList는 내부적으로 배열을 이용해 리스트를 구현
+ArrayList는 내부적으로 배열을 이용해 리스트를 구현함
 
-흔히 사용하는 Primitive 타입 배열(e.g. int[])과 유사한 형태라고 봄.  
-장점으로는 배열을 이용하기 때문에 인덱스 접근이 빠름.  
-반면 단점으로는 데이터의 추가/삭제가 느리다.  
-데이터를 추가/삭제하면, 해당 데이터 이후의 모든 데이터를 한칸씩 뒤로 밀거나 앞으로 당기기 때문이다.
+흔히 사용하는 Primitive 타입 배열(e.g. int[])과 유사한 형태라고 본다.  
+장점으로는 배열을 이용하기 때문에 **인덱스 접근이 빠름**.  
+배열처럼 물리적으로 연속된 Memory Address를 사용한다.
+
+반면 단점으로는 **데이터의 추가/삭제가 느리다**.
+
+데이터를 추가/삭제하면, 해당 데이터 이후의 모든 데이터를 한칸씩 뒤로 밀거나 앞으로 당긴다.  
+또한 자바의 배열은 크기가 고정돼있어, 데이터를 추가할 때 내부적으로 크기가 꽉 차면 기존의 배열 대비 2배 큰 배열을 새로 만들어 기존 데이터를 모두 복사하여 부하가 발생한다.
 
 ## LinkedList
 
-## 이중 연결리스트 (Doubly LinkedList)
+LinkedList는 엘리먼트와 엘리먼트 간의 연결을 이용해서 리스트를 구현함
 
-ArrayList. 배열을 이용해 리스트 구현.  
-장점은 배열을 이용하므로 인덱스 접근이 빠름. 반면 데이터 추가/삭제 느림.  
-데이터를 추가/삭제 하면, 이후의 모든 데이터를 한칸씩 뒤로 물리거나 앞으로 당긴다.
+**Node**라고 하는 데이터, 주소로 이루어진 클래스를 만들어 연결하는 것이 핵심.  
+노드는 이전의 노드와 다음 노드로, 즉 객체끼리 연결되어 있어 엘리먼트를 검색하는 과정도 이처럼 하나씩 물어물어 간다.  
+이 때문에 Memory Address도 ArrayList와 달리 흩어져있다.
 
-자바에서 ArrayList 사용.  
-데이터 추가: add 메서드 사용. 특정 위치에 추가하고자 한다면 add(index, value).  
-한편 자바의 배열을 크기가 고정돼있다. 따라서 데이터를 추가할 때 내부적으로 크기가 꽉 차면 기존의 배열 대비 2배 큰 배열을 새로 만들어 기존 데이터를 모두 복사함. 이 과정에서 부하가 발생해 데이터 추가가
-오래걸림.  
-데이터 삭제: 특정 인덱스의 엘리먼트를 삭제하는 remove 메서드. remove(index).  
-데이터 가져오기: 특정 인덱스 엘리먼트 가져옴. get(index).
+이러한 노드의 성격 때문에 데이터의 **검색은 성능이 떨어진다**.
 
-반복 :  자바에서 ArrayList를 탐색하기 위한 방법으로 iterator 객체. ; 객체 내부의 저장된 값을 하나씩 순회하며 탐색할 수 있도록 도움.  
-it.next() 메서드 : 다음 엘리먼트 리턴.
-
-자바에서 LinkedList 사용.  
-ArrayList와 다르게 엘리먼트와 엘리먼트 간의 연결을 중시. **연결이 무엇인가?**
-
-LinkedList와 메모리.  
-ArrayList는 배열의 일종이므로, 배열처럼 연속 메모리 memory address 사용.  
-반면 LinkedList는 메모리가 떨어져 있음. 따라서 몇번째 엘리먼트 찾기가 느림. 물어물어 가야하므로. 위치가 흩어져있어.  
-한편 정확히는 엘리먼트가 아니라 LinkedList 에서는 노드라는 개념 사용. 노드 : 연결된 엘리먼트를 칭하는. 혹은 버텍스(vertex).
-
-LinkedList의 구조.  
-리스트는 노드들의 모임. 따라서 내부적으로 노드를 가지고 있어야 함. LinkedList는 배열 대신 다른 구조 사용.  
-https://opentutorials.org/module/1335/8821 HEAD 그림...
-
-data field 그리고 link field. node는 data field + link field. 데이터 필드는 값, 링크 필드는 다음 노드의 포인터나 참조값.  
-HEAD? 리스트가 하나의 건물이라면 건물의 입구를 HEAD. LinkedList를 처음 사용하려면 HEAD가 가리키는 첫번째 노드를 찾아야한다.
-
-단방향/양방향 링크드리스트
-
-단방향 링크드리스트는 한쪽으로만 가기 때문ㅇ ㅔ헤더 주소 하나만 포인터로 저장하고 있음.  
-그에 반해 양방향 은 양쪽 끝에 포인터를 저장하고 있어서, 맨 끝에 노드를 삽입할 때 끝까지 찾아가는 번거로움을 줄일 수 있다.  
-구현하고자 하는 알고리즘의 효율성을 판단해서 선택하면 된다.
-
-자바에서 어레이리스트 구현?
-
-생활코딩 참조.
-
-자바에서 링크드리스트 구현
-
-자바는 Collection 프레임워크에서 이미 자료 구조들을 제공하고 있다. 그리고 collection 안에 List라는 것이 있다. 그 중에서 ArrayList, Vector, LinkedList가 있는데, 우리는
-LinkedList를 구현해보자.
+반면 **데이터를 추가/삭제**하는 경우, 노드 간의 연결을 새로 이어주거나 끊으면 되기 때문에 **성능이 좋다**.
 
 ## 출처
 
-- https://opentutorials.org/module/1335/8636
-- https://blog.naver.com/kks227/220781402507
-- https://www.youtube.com/watch?v=DzGnME1jIwY
-- https://memostack.tistory.com/234
-- https://st-lab.tistory.com/142
+- [리스트 (List) - Data Structure (자료구조)](https://opentutorials.org/module/1335/8636)
+- [리스트(List), 배열(Array), 연결 .. : 네이버블로그](https://blog.naver.com/kks227/220781402507)
+- [[자료구조 알고리즘] Linked List 개념 - YouTube](https://www.youtube.com/watch?v=DzGnME1jIwY)
+- [Java - Collection과 Map의 종류(List, Set, Map)](https://memostack.tistory.com/234)
+- [자바 [JAVA] - 자바 컬렉션 프레임워크 (Java Collections Framework)](https://st-lab.tistory.com/142)
