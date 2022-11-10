@@ -735,5 +735,26 @@ public class AppConfig {
     - 코드만 봐도 `MemberService` 역할, `MemberRepository` 역할, `OrderService` 역할 그리고 `DiscountPolicy` 역할이 각각 메서드 명만 봐도 잘 보인다.
     - 또한 그 각각의 구현 클래스를 반환함으로써 애플리케이션 구성을 한눈에 파악 가능.
 
+## 새로운 구조와 할인 정책 적용
 
+다시 정액 할인 정책을 정률 할인 정책으로 바꾸던 시점으로 돌아가, 새로운 할인 정책을 적용해보자.
 
+**AppConfig**의 사용으로 우리는 코드 한 줄만 바꾸면 된다.
+
+### 사용/구성 영역의 분리
+
+<img src="./assets/appconfig-3.png" width="70%">
+
+```java
+public class AppConfig {
+    public DiscountPolicy discountPolicy() {
+//        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
+    }
+}
+```
+
+AppConfig를 제외한 **어떤 사용 영역의 코드도 우리는 바꿀 필요가 없다**.
+
+반면 **구성 영역의 코드는 변경**된다. AppConfig는 애플리케이션 전체의 기획자이므로, 모든 구현 객체들을 알아야하기 때문이다.  
+이렇게 기존 문제였던 OCP, DIP 문제를 해결할 수 있다.
