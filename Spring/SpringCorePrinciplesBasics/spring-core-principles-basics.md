@@ -535,3 +535,42 @@ public class RateDiscountPolicy implements DiscountPolicy {
 }
 ```
 
+## 새로운 할인 정책 적용과 문제점
+
+새로운 정률 할인 정책을 적용하려면 클라이언트 `OrderServiceImpl`을 고쳐야 한다.
+
+```java
+public class OrderServiceImpl implements OrderService {
+    
+    //private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+	private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+}
+```
+
+그런데 위의 클라이언트 코드를 보면 OCP와 DIP를 모두 위반하는 문제를 발견할 수 있다.
+
+- OCP : 할인 정책 기능을 확장했더니, 클라이언트 코드를 변경하고 있다.
+- DIP : `DiscountPolicy` 인터페이스 뿐만 아니라 구현체 `FixDiscountPolicy`, `RateDiscountPolicy` 모두 의존하고 있다.
+
+### 실제 클래스 다이어그램
+
+<img src="./assets/order-service-impl-1.png" width="70%">
+
+### 문제 해결 방법
+
+그렇다면 OCP와 DIP 위반을 모두 해결하는 방법은?
+
+**인터페이스에만 의존**하도록 설계와 코드를 변경하면 된다.
+
+<img src="./assets/order-service-impl-2.png" width="70%">
+
+```java
+public class OrderServiceImpl implements OrderService {
+    
+	//private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+    private DiscountPolicy discountPolicy; //final은 값이 무조건 할당되어야 하므로 없앤다.
+}
+```
+
+문제는 코드를 이렇게 짜면 **NullPointerException** 발생.  
+따라서 **누군가가** 클라이언트 `OrderServiceImpl`에게 `DiscountPolicy`의 **구현 객체를 대신 생성하고 주입**해줘야 한다.
