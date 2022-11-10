@@ -1,4 +1,4 @@
-# [스프링 핵심 원리 - 기본편] 강의 소개
+# 스프링 핵심 원리 - 기본편 강의 소개
 
 > [스프링 핵심 원리 - 기본편](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%95%B5%EC%8B%AC-%EC%9B%90%EB%A6%AC-%EA%B8%B0%EB%B3%B8%ED%8E%B8)
 
@@ -516,3 +516,22 @@ public class OrderServiceImpl implements OrderService {
 
 기존에 VIP를 대상으로 1000원씩 할인하던 정책에서, 주문 금액에 따라 10%씩 할인하는 정률 할인 정책으로 변경해보자.  
 따라서 `RateDiscountPolicy` 구현체를 추가.
+
+<img src="./assets/rate-discount-policy.png" width="70%">
+
+```java
+public class RateDiscountPolicy implements DiscountPolicy {
+
+    private int discountPercent = 10;
+
+    @Override
+    public int discount(Member member, int price) {
+        if (member.getGrade() == Grade.VIP) {
+            return price * discountPercent / 100;
+        } else {
+            return 0;
+        }
+    }
+}
+```
+
