@@ -203,7 +203,7 @@ SOLID는 클린코드로 유명한 Robert C. Martin이 좋은 객체 지향 설�
 - OCP : 개방-폐쇄 원칙 (Open/Closed Principle)
 - LSP : 리스코프 치환 원칙 (Liskov Substitution Principle)
 - ISP : 인터페이스 분리 원칙 (Interface Segregation Principle)
-- DI : 의존관계 역전 원칙 (Dependency Inversion)
+- DIP : 의존관계 역전 원칙 (Dependency Inversion Principle)
 
 ### SRP, 단일 책임 원칙
 
@@ -574,3 +574,127 @@ public class OrderServiceImpl implements OrderService {
 
 문제는 코드를 이렇게 짜면 **NullPointerException** 발생.  
 따라서 **누군가가** 클라이언트 `OrderServiceImpl`에게 `DiscountPolicy`의 **구현 객체를 대신 생성하고 주입**해줘야 한다.
+
+## 관심사의 분리
+
+### AppConfig 등장
+
+위의 문제를 해결하기 위해 대신 **구현 객체를 생성**하고, **주입**하는 책임을 가진 **AppConfig**라는 별도의 설정 클래스를 만들자.  
+AppConfig는 애플리케이션의 전체 동작 방식을 구성(Config)한다.
+
+```java
+public class AppConfig {
+
+    public MemberService memberService() {
+        return new MemberServiceImpl(new MemoryMemberRepository());
+    }
+
+    public OrderService orderService() {
+        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+    }
+}
+```
+
+- **구현 객체 생성**
+    - `MemberServiceImpl`
+    - `MemoryMemberRepository`
+    - `OrderServiceImpl`
+    - `FixDiscountPolicy`
+- 생성자를 통해 **주입**
+    - `MemberServiceImpl` -> `MemoryMemberRepository`
+    - `OrderServiceImpl` -> `MemoryMemberRepository`, `FixDiscountPolicy`
+
+이제, `MemberServiceImpl`과 `OrderServiceImpl`에 각각 생성자를 만들자.
+
+```java
+public class MemberServiceImpl implements MemberService {
+
+    private final MemberRepository memberRepository;
+
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+}
+```
+
+```java
+public class OrderServiceImpl implements OrderService {
+
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
+}
+```
+
+이를 통해 두 구현체는 어떤 구현 객체에도 의존하고 있지 않으며 또 어떤 구현 객체가 들어오는지 알 수도 없다.  
+결과적으로 **의존관계는 외부(AppConfig)**에 맡기고 **기능의 실행에만 집중**할 수 있다.
+
+### 클래스 다이어 그램
+
+<img src="./assets/appconfig-1.png" width="70%">
+
+객체의 생성과 주입은 AppConfig 담당.  
+**DIP 완성** : `MemberServiceImpl`은 `MemberRepository`인 추상에만 의존하면 된다. 구체 클래스 모름.  
+**관심사의 분리** : 객체를 생성하고 주입하는 역할과 기능을 실행하는 역할이 분리됨.
+
+### 회원 객체 인스턴스 다이어그램
+
+<img src="./assets/appconfig-2.png" width="70%">
+
+1. appConfig 객체는 `memoryMemberRepository` 객체를 생성하고,
+2. 그 참조값을 `memberServiceImpl` 객체를 생성하면서 생성자로 전달한다.
+3. 클라이언트인 `memberServiceImpl` 입장에서는 의존관계를 마치 외부에서 주입해주는 것처럼 보인다고 해서 **DI(Dependency Injection)**, **의존관계 주입** 또는 **의존성 주입**이라고 한다.
+
+### AppConfig 실행
+
+사용클래스 MemberApp과 OrderApp에서 실행함.
+
+```java
+public class MemberApp {
+
+    public static void main(String[] args) {
+        AppConfig appConfig = new AppConfig();
+        MemberService memberService = appConfig.memberService();
+//        MemberService memberService = new MemberServiceImpl();
+        
+        Member member = new Member(1L, "memberA", Grade.VIP);
+        memberService.join(member);
+
+        Member findMember = memberService.findMember(1L);
+        System.out.println("new member = " + member.getName());
+        System.out.println("find member = " + findMember.getName());
+    }
+}
+```
+
+```java
+public class OrderApp {
+
+    public static void main(String[] args) {
+        AppConfig appConfig = new AppConfig();
+        MemberService memberService = appConfig.memberService();
+        OrderService orderService = appConfig.orderService();
+//        MemberService memberService = new MemberServiceImpl();
+//        OrderService orderService = new OrderServiceImpl();
+
+        Long memberId = 1L;
+        Member member = new Member(memberId, "memberA", Grade.VIP);
+        memberService.join(member);
+
+        Order order = orderService.createOrder(memberId, "itemA", 10000);
+
+        System.out.println("order = " + order);
+    }
+}
+```
+
+### AppConfig 정리
+
+AppConfig를 통해 역할의 관심사를 확실히 분리할 수 있었다.  
+따라서 AppConfig는 일종의 **공연 기획자** 역할을 한다.  
+AppConfig는 구체 클래스를 직접 선택하여, 애플리케이션이 어떻게 동작해야 할지 전체 **구성을 책임**진다.  
+그로 인해 각 구현체들은 기능을 실행하는 책임만 지면 된다.
