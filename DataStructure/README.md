@@ -1,19 +1,22 @@
-# 자료 구조
+# 자료 구조 (Data Structure)
 
 > 각종 자료를 통해 공부한 자료 구조를 정리한 문서입니다.
 
-자료 구조는 상황에 따라 데이터를 효율적으로 관리할 수 있도록 표현하는 방식과 이를 구현하는 데에 필요한 기능을 지원하는 기술을 말한다.
+자료 구조는 상황에 따라 데이터를 효율적으로 관리할 수 있도록 표현하는 방식과 이를 구현하는 데에 필요한 기능을 지원하는 기술을 말한다.  
+적절한 자료 구조 선택을 통해 알고리즘을 효율적으로 사용할 수 있다.
 
-- 선형 자료 구조(Linear Data Structure)
-    - 리스트(List)
-    - 큐(Queue)
-    - 덱(Deque)
-- 비선형 자료 구조(Nonlinear Data Structure)
-    - 그래프(Graph)
-    - 트리(Tree)
-- 집합(Set)
+## 분류
 
-## 자바 컬렉션 프레임워크(Java Collections Framework)
+- **선형 자료 구조** (Linear Data Structure) : 데이터를 순차적으로 연결한 형태
+    - 리스트 (List)
+    - 큐 (Queue)
+    - 덱 (Deque)
+- **비선형 자료 구조** (Nonlinear Data Structure) : 각 요소를 여러 개의 요소와 연결한 형태
+    - 그래프 (Graph)
+    - 트리 (Tree)
+- **집합** (Set) : 데이터의 집합 형태
+
+## 자바 컬렉션 프레임워크 (Java Collections Framework)
 
 <img src="./assets/java-collection.png" width="70%">
 
