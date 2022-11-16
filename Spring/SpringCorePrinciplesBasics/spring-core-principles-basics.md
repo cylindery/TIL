@@ -919,3 +919,53 @@ ApplicationContext applicationContext = new AnnotationConfigApplicationContext(A
     - 자바 코드로 스프링 빈을 등록하면, 생성자 호출과 함께 주입도 한번에 처리되지만, 사실은 빈을 생성하고 의존관계를 주입하는 단계가 나누어져 있다.
 
 이렇게 스프링 컨테이너를 생성하고, 빈도 등록하고, 의존 관계도 설정했으니 다음에는 스프링 컨테이너에서 데이터를 조회해 보자.
+
+## 스프링 빈 조회
+
+### 기본
+
+- `ac.getBean(빈이름, 타입)`
+- `ac.getBean(타입)`
+- 조회 대상 스프링 빈이 없으면 예외 발생 : `NoSuchBeanDefinitionException`
+
+```java
+public class ApplicationContextBasicFindTest {
+
+    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
+    @Test
+    @DisplayName("빈 이름으로 조회")
+    void findBeanByName() {
+        MemberService memberService = ac.getBean("memberService", MemberService.class);
+        assertThat(memberService).isInstanceOf(MemberService.class);
+    }
+
+    @Test
+    @DisplayName("이름 없이 타입으로만 조회")
+    void findBeanByType() {
+        MemberService memberService = ac.getBean(MemberService.class);
+        assertThat(memberService).isInstanceOf(MemberService.class);
+    }
+
+    @Test
+    @DisplayName("구체 타입으로 조회")
+    void findBeanByName2() {
+        MemberServiceImpl memberService = ac.getBean("memberService", MemberServiceImpl.class);
+        assertThat(memberService).isInstanceOf(MemberServiceImpl.class);
+    }
+
+    @Test
+    @DisplayName("빈 이름으로 조회X")
+    void findBeanByNameX() {
+        //ac.getBean("xxxxx", MemberService.class);
+        assertThrows(NoSuchBeanDefinitionException.class,
+                () -> ac.getBean("xxxxx", MemberService.class));
+    }
+    
+}
+```
+
+### 동일한 타입이 둘 이상
+
+### 상속 관계
+
