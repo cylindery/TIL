@@ -865,6 +865,11 @@ public class OrderApp {
 }
 ```
 
+- `ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);`
+    - 위 코드를 통해, 파라미터로 받은 `AppConfig.class`에 있는 환경 설정 정보들을 가지고 스프링이 `@Bean`이 붙은 모든 메서드를 스프링 컨테이너에 객체를 생성해서 빈으로 관리한다.
+
+코드를 이렇게 바꾸고 실행하면, 스프링 관련 로그가 추가되며 기존과 동일한 결과가 출력된다.
+
 코드를 이렇게 바꾸면, 스프링 관련 로그가 추가되며 기존과 동일한 결과가 출력된다.
 
 <img src="./assets/spring-container-log.png" width="70%">
