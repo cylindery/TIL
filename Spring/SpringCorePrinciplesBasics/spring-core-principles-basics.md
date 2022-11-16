@@ -798,3 +798,90 @@ OrderServiceImpl은 어떤 구현 객체들이 실행될지 전혀 모른 채 Di
 
 위의 코드에서는 AppConfig가 바로 DI 컨테이너라고 볼 수 있다.  
 다른 표현으로 어셈블러, 오브젝트 팩토리 등으로도 불림.
+
+## 스프링으로 전환하기
+
+지금까지 자바 코드만으로 DI를 적용했는데, 이젠 스프링을 사용해 DI를 적용해 보자.
+
+### 스프링 기반으로 AppConfig 변경
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public MemberService memberService() {
+        return new MemberServiceImpl(memberRepository());
+    }
+
+    @Bean
+    public MemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    @Bean
+    public OrderService orderService() {
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    @Bean
+    public DiscountPolicy discountPolicy() {
+//        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
+    }
+}
+```
+
+- @Configuration : AppConfig에 설정을 구성해 준다는 의미
+- @Bean : 메서드에 붙이면, 각 메서드들은 모두 스프링 컨테이너에 스프링 빈으로 등록된다.
+
+### 스프링 기반으로 MemberApp과 OrderApp에 스프링 컨테이너 적용
+
+```java
+public class MemberApp {
+
+    public static void main(String[] args) {
+//        AppConfig appConfig = new AppConfig();
+//        MemberService memberService = appConfig.memberService();
+
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+    }
+}
+```
+
+```java
+public class OrderApp {
+
+    public static void main(String[] args) {
+//        AppConfig appConfig = new AppConfig();
+//        MemberService memberService = appConfig.memberService();
+//        OrderService orderService = appConfig.orderService();
+
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
+    }
+}
+```
+
+코드를 이렇게 바꾸면, 스프링 관련 로그가 추가되며 기존과 동일한 결과가 출력된다.
+
+<img src="./assets/spring-container-log.png" width="70%">
+
+스프링 관련 로그들은 스프링이 필요해서 자체적으로 등록하는 스프링 빈들이고,  
+아래의 appConfig, memberService ... 등의 5가지 빈은 AppConfig에서 @Bean으로 등록된 객체들이다.  
+등록된 빈들을 보면 key 값으로 메서드 명, 그리고 value 값으로 return 되는 객체 인스턴스가 스프링 빈으로 등록된 것을 알 수 있다.
+
+### 스프링 컨테이너 정리
+
+`ApplicationContext`가 바로 스프링 컨테이너다.  
+기존에 개발자가 직접 `AppConfig` 객체를 생성하던 것과 달리, 이젠 스프링 컨테이너를 통해서 `AppConfig`를 사용한다.
+
+1. 스프링 컨테이너는 `@Configuration`이 붙은 `AppConfig`를 설정 정보로 사용.
+2. 여기에 `@Bean`이 붙은 메서드를 모두 호출해서 반환된 객체를 스프링 컨테이너에 등록함. 이 객체를 스프링 빈이라고 한다.
+3. 스프링 빈은 `@Bean`이 붙은 메서드 명을 스프링 빈의 이름으로 사용함. (`memberService`, `orderService`)
+4. 이전에 필요한 객체를 `AppConfig`를 직접 사용해서 조회했던 것과 달리, 스프링 컨테이너에 등록된 빈을 찾아서 객체 사용. 객체 사용은 `applicationContext.getBean()` 메서드를 사용한다.
+5. 기존에 개발자가 자바 코드로 직접 모든 것을 했다면, 이제는 스프링 컨테이너에 객체를 스프링 빈으로 등록하고, 스프링 컨테이너에서 빈을 찾아 사용하도록 변경했다.
+
+그런데 이렇게 스프링 컨테이너를 사용하면 코드가 복잡해지는데 장점은 무엇일까?
