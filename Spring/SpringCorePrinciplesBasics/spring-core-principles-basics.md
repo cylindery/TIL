@@ -875,7 +875,7 @@ public class OrderApp {
 
 ### 스프링 컨테이너 정리
 
-`ApplicationContext`가 바로 스프링 컨테이너다.  
+`ApplicationContext`를 생성하면 스프링을 생성할 수 있고, 이 `ApplicationContext`가 바로 스프링 컨테이너다.  
 기존에 개발자가 직접 `AppConfig` 객체를 생성하던 것과 달리, 이젠 스프링 컨테이너를 통해서 `AppConfig`를 사용한다.
 
 1. 스프링 컨테이너는 `@Configuration`이 붙은 `AppConfig`를 설정 정보로 사용.
