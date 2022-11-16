@@ -891,3 +891,31 @@ public class OrderApp {
 5. 기존에 개발자가 자바 코드로 직접 모든 것을 했다면, 이제는 스프링 컨테이너에 객체를 스프링 빈으로 등록하고, 스프링 컨테이너에서 빈을 찾아 사용하도록 변경했다.
 
 그런데 이렇게 스프링 컨테이너를 사용하면 코드가 복잡해지는데 장점은 무엇일까?
+
+# 스프링 컨테이너와 스프링 빈
+
+## 스프링 컨테이너 생성
+
+```java
+ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+```
+
+- `ApplicationContext`를 스프링 컨테이너라고 한다. 
+    - 스프링 컨테이너를 더 정확히는 `BeanFactory`와 `ApplicationContext`로 구분해서 이야기하지만, `BeanFactory`는 사용빈도가 낮아 잘 부르지 않는다.
+- `ApplicationContext`는 인터페이스이며, `AnnotationConfigApplicationContext` 는 그 구현체.
+
+### 스프링 컨테이너 생성 과정
+
+1. 스프링 컨테이너 생성
+    - `ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);`
+    - 스프링 컨테이너를 생성할 때는 구성 정보를 지정해주어야 한다.
+2. 스프링 빈 등록
+    - `@Bean`
+    - 스프링 컨테이너는 파라미터로 넘어온 설정 클래스 정보를 사용해 스프링 빈을 등록한다. 
+    - 빈 이름은 메서드 명을 사용하며, 따로 지정할 수도 있다. 하지만 항상 다른 이름을 부여해야 한다.
+3. 스프링 빈 의존관계 설정 - 준비
+4. 스프링 빈 의존관계 설정 - 완료
+    - 스프링 컨테이너는 설정 정보를 참고해서 의존관계를 주입한다.
+    - 자바 코드로 스프링 빈을 등록하면, 생성자 호출과 함께 주입도 한번에 처리되지만, 사실은 빈을 생성하고 의존관계를 주입하는 단계가 나누어져 있다.
+
+이렇게 스프링 컨테이너를 생성하고, 빈도 등록하고, 의존 관계도 설정했으니 다음에는 스프링 컨테이너에서 데이터를 조회해 보자.
