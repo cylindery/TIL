@@ -1,0 +1,12 @@
+{
+  "name": "kundol",
+  "like": {
+    "아령": {
+      "weight": "10kg",
+      "feature": "육각형"
+    },
+    "바나나": {
+      "color": "초록색"
+    }
+  }
+}
